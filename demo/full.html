@@ -962,7 +962,7 @@ function renderHud(){
   var p=$('hudPoll').children;
   for(var i=0;i<p.length;i++) p[i].classList.toggle('on', i<S.poll);
   var meta=$('titleMeta');
-  if(meta) meta.textContent = '试玩版 · 序章 + 第一夜　记忆碎片 ' + S.frag + ' / ' + Object.keys(CGIMG).length;
+  if(meta) meta.textContent = '试玩版 · 序章 + 第一夜　记忆碎片 ' + Math.min(S.frag,Object.keys(CGIMG).length) + ' / ' + Object.keys(CGIMG).length;
 }
 function knownCount(){
   var n=0; for(var k in S.known){ if(S.known[k]) n++; } return n;
@@ -1674,7 +1674,7 @@ function renderLogFoot(){
 }
 /* ========== 存档 ========== */
 var SLOT_KEY = 'pgr_slot_';
-var AUTO_KEY = 'pgr_auto';
+var AUTO_KEY = 'pgr_demo_auto';
 function snapshot(){
   return {ch:S.ch, ci:S.ci, vars:S.vars, known:S.known, poll:S.poll, recall:S.recall, frag:S.frag,
           clock:S.clock, clockVersion:1, log:S.log.slice(-20), cp:S.cp, ck:S.ck, picks:S.picks, lock:S.lock, max:S.max||0, ts:Date.now(),
