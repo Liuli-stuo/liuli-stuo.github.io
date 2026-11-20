@@ -1,8 +1,6 @@
-name: Sync game files
+name: Sync game files (manual seed)
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
