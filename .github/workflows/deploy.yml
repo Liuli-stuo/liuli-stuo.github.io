@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Sync game files
 
 on:
   push:
@@ -6,41 +6,34 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
-  group: pages
+  group: sync-game
   cancel-in-progress: true
 
 jobs:
-  build:
+  sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Prepare site
-        run: |
-          mkdir -p site
-          curl -fsSL --retry 3 -o site/index.html "https://aka.doubaocdn.com/s/IUGzDUzl6e"
-          curl -fsSL --retry 3 -o site/offline.html "https://aka.doubaocdn.com/s/f1mScgEE7H"
-          touch site/.nojekyll
-          ls -lh site
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-        with:
-          enablement: true
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: site
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Download builds
+        run: |
+          curl -fsSL --retry 3 -o index.html "https://aka.doubaocdn.com/s/IUGzDUzl6e"
+          curl -fsSL --retry 3 -o offline.html "https://aka.doubaocdn.com/s/f1mScgEE7H"
+          touch .nojekyll
+          ls -lh index.html offline.html
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html offline.html .nojekyll
+          if git diff --cached --quiet; then
+            echo "no changes"
+          else
+            git commit -m "chore: sync game build"
+            git push
+          fi
