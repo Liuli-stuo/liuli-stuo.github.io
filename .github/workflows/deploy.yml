@@ -2,6 +2,9 @@ name: Sync game files (manual seed)
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - sync.trigger
 
 permissions:
   contents: write
@@ -19,8 +22,8 @@ jobs:
 
       - name: Download builds
         run: |
-          curl -fsSL --retry 3 -o index.html "https://aka.doubaocdn.com/s/IUGzDUzl6e"
-          curl -fsSL --retry 3 -o offline.html "https://aka.doubaocdn.com/s/f1mScgEE7H"
+          curl -fsSL --retry 3 -o index.html "https://aka.doubaocdn.com/s/s9jKif0WGC"
+          curl -fsSL --retry 3 -o offline.html "https://aka.doubaocdn.com/s/1Bg1AoTNeC"
           touch .nojekyll
           ls -lh index.html offline.html
 
