@@ -25,8 +25,8 @@ jobs:
           curl -fsSL --retry 3 -o index.html "https://aka.doubaocdn.com/s/s9jKif0WGC"
           curl -fsSL --retry 3 -o offline.html "https://aka.doubaocdn.com/s/1Bg1AoTNeC"
           mkdir -p demo
-          curl -fsSL --retry 3 -o demo/index.html "https://aka.doubaocdn.com/s/dIIegVmjP2"
-          curl -fsSL --retry 3 -o demo/full.html "https://aka.doubaocdn.com/s/UOdsOqfc5V"
+          curl -fsSL --retry 3 -o demo/index.html "https://aka.doubaocdn.com/s/SNym7BmtGo"
+          curl -fsSL --retry 3 -o demo/full.html "https://aka.doubaocdn.com/s/5J5V2BBO9r"
           touch .nojekyll
           ls -lh index.html offline.html demo/index.html demo/full.html
 
