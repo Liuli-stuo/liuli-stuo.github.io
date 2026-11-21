@@ -1,4 +1,4 @@
-name: Sync game files (manual seed)
+name: Sync game files
 
 on:
   workflow_dispatch:
@@ -22,11 +22,20 @@ jobs:
 
       - name: Download builds
         run: |
-          curl -fsSL --retry 3 -o index.html "https://aka.doubaocdn.com/s/s9jKif0WGC"
-          curl -fsSL --retry 3 -o offline.html "https://aka.doubaocdn.com/s/1Bg1AoTNeC"
+          set -euo pipefail
+          curl -fsSL --retry 3 -o index.html "https://aka.doubaocdn.com/s/JvU3DQz6i9"
+          curl -fsSL --retry 3 -o offline.html "https://aka.doubaocdn.com/s/yirOosUyzG"
           mkdir -p demo
-          curl -fsSL --retry 3 -o demo/index.html "https://aka.doubaocdn.com/s/SNym7BmtGo"
-          curl -fsSL --retry 3 -o demo/full.html "https://aka.doubaocdn.com/s/5J5V2BBO9r"
+          curl -fsSL --retry 3 -o demo/index.html "https://aka.doubaocdn.com/s/Pu9JGt5NlU"
+          curl -fsSL --retry 3 -o demo/full.html "https://aka.doubaocdn.com/s/JxCMq22F8R"
+          test -s index.html
+          test -s offline.html
+          test -s demo/index.html
+          test -s demo/full.html
+          grep -q "请遵守规则" index.html
+          grep -q "请遵守规则" offline.html
+          grep -q "请遵守规则" demo/index.html
+          grep -q "请遵守规则" demo/full.html
           touch .nojekyll
           ls -lh index.html offline.html demo/index.html demo/full.html
 
@@ -38,6 +47,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "no changes"
           else
-            git commit -m "chore: sync game build"
+            git commit -m "chore: sync P0P2 game builds"
             git push
           fi
